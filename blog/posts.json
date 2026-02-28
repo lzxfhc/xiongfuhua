@@ -1,0 +1,10 @@
+[
+  {
+    "id": "hello-blog",
+    "title": "我的第一篇博客",
+    "description": "博客上线了，记录一下搭建过程和未来的写作计划。",
+    "date": "2026-02-28",
+    "tags": ["随笔", "博客"],
+    "file": "posts/hello-blog.md"
+  }
+]

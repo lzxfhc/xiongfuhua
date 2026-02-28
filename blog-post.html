@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog - 熊福华</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Markdown 渲染 -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="navbar-inner">
+            <a href="index.html" class="nav-brand">xiongfuhua</a>
+            <div class="nav-links">
+                <a href="index.html#experience" class="nav-link">experience</a>
+                <a href="index.html#education" class="nav-link">education</a>
+                <a href="index.html#skills" class="nav-link">skills</a>
+                <a href="blog.html" class="nav-link nav-active">blog</a>
+                <a href="index.html#contact" class="nav-link nav-contact">contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="blog-post-page">
+        <div class="container">
+            <a href="blog.html" class="back-link">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                    <polyline points="15 18 9 12 15 6"/>
+                </svg>
+                <span>all posts</span>
+            </a>
+
+            <article class="post">
+                <header class="post-header" id="post-header">
+                    <time class="post-date" id="post-date"></time>
+                    <h1 class="post-title" id="post-title">Loading...</h1>
+                    <div class="post-tags" id="post-tags"></div>
+                </header>
+
+                <div class="post-body markdown-body" id="post-body">
+                    <!-- Markdown 内容渲染到这里 -->
+                </div>
+            </article>
+
+            <div class="post-nav">
+                <a href="blog.html" class="btn btn-secondary">返回文章列表</a>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 熊福华 &middot; Built with code</p>
+        </div>
+    </footer>
+
+    <script>
+        async function loadPost() {
+            const params = new URLSearchParams(window.location.search);
+            const postId = params.get('id');
+
+            if (!postId) {
+                window.location.href = 'blog.html';
+                return;
+            }
+
+            try {
+                // 加载文章元数据
+                const metaResponse = await fetch('blog/posts.json');
+                const posts = await metaResponse.json();
+                const post = posts.find(p => p.id === postId);
+
+                if (!post) {
+                    document.getElementById('post-title').textContent = '文章不存在';
+                    document.getElementById('post-body').innerHTML = '<p>抱歉，找不到这篇文章。</p>';
+                    return;
+                }
+
+                // 设置页面标题
+                document.title = `${post.title} - 熊福华`;
+
+                // 渲染元数据
+                document.getElementById('post-title').textContent = post.title;
+                document.getElementById('post-date').textContent = formatDate(post.date);
+                document.getElementById('post-tags').innerHTML = post.tags
+                    .map(tag => `<span class="blog-tag">${escapeHtml(tag)}</span>`)
+                    .join('');
+
+                // 加载 Markdown 内容
+                const mdResponse = await fetch('blog/' + post.file);
+                const mdText = await mdResponse.text();
+
+                // 渲染 Markdown（去掉第一个 h1 标题，因为已经在 header 展示）
+                let html = marked.parse(mdText);
+                html = html.replace(/^<h1[^>]*>.*?<\/h1>\s*/i, '');
+
+                document.getElementById('post-body').innerHTML = html;
+
+            } catch (e) {
+                console.error('Failed to load post:', e);
+                document.getElementById('post-title').textContent = '加载失败';
+                document.getElementById('post-body').innerHTML = '<p>文章加载失败，请稍后再试。</p>';
+            }
+        }
+
+        function formatDate(dateStr) {
+            const d = new Date(dateStr);
+            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                           'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            return `${months[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}`;
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        loadPost();
+    </script>
+</body>
+</html>
