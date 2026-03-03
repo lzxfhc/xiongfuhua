@@ -1,5 +1,13 @@
 [
   {
+    "id": "self-evolve-as-a-service",
+    "title": "Self-Evolve as a Service：Agent 时代的下一个增量价值",
+    "description": "当公有云的 Agent 基础架构趋同时，让 Agent 在空闲时段通过自我反思和社交学习持续进化，或许是下一个差异化壁垒。",
+    "date": "2026-03-03",
+    "tags": ["AI Agent", "云计算", "产品思考"],
+    "file": "posts/self-evolve-as-a-service.md"
+  },
+  {
     "id": "hello-blog",
     "title": "我的第一篇博客",
     "description": "博客上线了，记录一下搭建过程和未来的写作计划。",
