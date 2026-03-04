@@ -1,5 +1,13 @@
 [
   {
+    "id": "personalized-eval-with-rubrics",
+    "title": "生成 Rubrics，实现 Chatbot/Agent 的个性化效果评估",
+    "description": "个性化效果难以衡量？通过从目标用户群体中提取评估量规，训练模型自动生成个性化 Rubrics，让评估标准本身也变得个性化。",
+    "date": "2026-03-04",
+    "tags": ["AI", "评估方法", "个性化"],
+    "file": "posts/personalized-eval-with-rubrics.md"
+  },
+  {
     "id": "self-evolve-as-a-service",
     "title": "Self-Evolve as a Service：Agent 时代的下一个增量价值",
     "description": "当公有云的 Agent 基础架构趋同时，让 Agent 在空闲时段通过自我反思和社交学习持续进化，或许是下一个差异化壁垒。",
